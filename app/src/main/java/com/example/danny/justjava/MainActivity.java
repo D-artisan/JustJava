@@ -13,6 +13,7 @@ package com.example.danny.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -35,50 +36,77 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int price = quantity * 5;
-        String priceMessage = "Total: "+ price;
-        priceMessage = priceMessage +"$"+"\nThank you";
+
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+
+        int price = calculatePrice();
+        String priceMessage = createOrderSummary(price, hasWhippedCream);
         displayMessage(priceMessage);
+
+        //Simpler alternative
+        //displayMessage(createOrderSummary(price));
+    }
+
+    /**
+     * Calculates the price of the order
+     *
+     * @return total prie
+     */
+    private int calculatePrice(){
+        return quantity * 5;
+
+    }
+
+    /**
+     *Crate summary of the order.
+     *
+     * @param price of the order
+     * @param addWhippedCream is whether or not the customer wants whipped cream topping
+     * @return text summary
+     */
+
+    private String createOrderSummary(int price, boolean addWhippedCream){
+
+        String priceMessage = "Name: Nti - Boakye Daniel";
+        priceMessage += "\nAdd whipped cream? " + addWhippedCream;
+        priceMessage += "\nQuantity: " + quantity;
+        priceMessage += "\nTotal: " +"$"+ price;
+        priceMessage += "\nThank you";
+        return priceMessage;
     }
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void display(int number) {
+    private void displayQuantity(int numberOfCoffees) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText("" + numberOfCoffees);
     }
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void displayPrice(int number){
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-
-    }
 
     public void displayMessage(String message){
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView OrderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        OrderSummaryTextView.setText(message);
 
     }
 
 
     public void increment(View view){
-
-
             quantity = quantity + 1;
-            display(quantity);
+            displayQuantity(quantity);
     }
 
     public void decrement(View view){
             if (quantity>0) {
                 quantity = quantity - 1;
-                display(quantity);
+                displayQuantity(quantity);
             }
             else{
-                display(0);
+                displayQuantity(0);
             }
 
     }

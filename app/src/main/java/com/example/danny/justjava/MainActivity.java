@@ -9,11 +9,11 @@
 package com.example.danny.justjava;
 
 
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -36,12 +36,17 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-
+        
+        // Figure out if the user wants whipped cream topping
         CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
 
+        // Figure out if the user wants Chocolate topping
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+
         int price = calculatePrice();
-        String priceMessage = createOrderSummary(price, hasWhippedCream);
+        String priceMessage = createOrderSummary(price, hasWhippedCream, hasChocolate);
         displayMessage(priceMessage);
 
         //Simpler alternative
@@ -51,28 +56,30 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calculates the price of the order
      *
-     * @return total prie
+     * @return total price
      */
-    private int calculatePrice(){
+    private int calculatePrice() {
         return quantity * 5;
 
     }
 
     /**
-     *Crate summary of the order.
+     * Create summary of the order.
      *
-     * @param price of the order
-     * @param addWhippedCream is whether or not the customer wants whipped cream topping
+     * @param addWhippedCream is whether or not the user wants whipped cream topping
+     * @param addChocolate    is whether or not the user wants chocolate topping
+     * @param price           of the order
      * @return text summary
      */
 
-    private String createOrderSummary(int price, boolean addWhippedCream){
+    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate) {
 
-        String priceMessage = "Name: Nti - Boakye Daniel";
+        String priceMessage = "Name: Lyla the Labyrinth";
         priceMessage += "\nAdd whipped cream? " + addWhippedCream;
+        priceMessage += "\nAdd chocolate? " + addChocolate;
         priceMessage += "\nQuantity: " + quantity;
-        priceMessage += "\nTotal: " +"$"+ price;
-        priceMessage += "\nThank you";
+        priceMessage += "\nTotal: $" + price;
+        priceMessage += "\nThank you!";
         return priceMessage;
     }
 
@@ -88,26 +95,26 @@ public class MainActivity extends AppCompatActivity {
      * This method displays the given quantity value on the screen.
      */
 
-    public void displayMessage(String message){
+    public void displayMessage(String message) {
         TextView OrderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
         OrderSummaryTextView.setText(message);
 
     }
 
 
-    public void increment(View view){
-            quantity = quantity + 1;
-            displayQuantity(quantity);
+    public void increment(View view) {
+        quantity = quantity + 1;
+        displayQuantity(quantity);
     }
 
-    public void decrement(View view){
-            if (quantity>0) {
-                quantity = quantity - 1;
-                displayQuantity(quantity);
-            }
-            else{
-                displayQuantity(0);
-            }
+    public void decrement(View view) {
+        if (quantity > 0) {
+            quantity = quantity - 1;
+            displayQuantity(quantity);
+        } else {
+            displayQuantity(0);
+        }
+
 
     }
 
